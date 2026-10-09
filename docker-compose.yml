@@ -1,0 +1,16 @@
+# RabbitMQ broker cho bai thuc hanh AMQP.
+# Chay:   docker compose up -d        Dung:   docker compose down
+services:
+  rabbitmq:
+    image: rabbitmq:4-management   # RabbitMQ 4.x + plugin giao dien web quan ly
+    container_name: iot-rabbitmq
+    hostname: rabbitmq             # co dinh ten node de du lieu durable dung lai duoc khi tao lai container
+    ports:
+      # Chi mo tren may nay (127.0.0.1). Muon may khac trong LAN ket noi thi bo "127.0.0.1:".
+      - "127.0.0.1:5672:5672"      # AMQP: pika ket noi vao day
+      - "127.0.0.1:15672:15672"    # Giao dien web: http://localhost:15672 (guest / guest)
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq   # luu queue/message durable qua cac lan khoi dong lai
+
+volumes:
+  rabbitmq_data:
